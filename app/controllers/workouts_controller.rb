@@ -1,5 +1,5 @@
 class WorkoutsController < ApplicationController
-    skip_before_action :authenticate_user!, only: [:index]
+    # skip_before_action :authenticate_user!, only: [:index]
     before_action :find_workout, only: [:show, :edit, :update, :destroy]
 
     def index
@@ -20,22 +20,23 @@ class WorkoutsController < ApplicationController
     end 
 
     def create 
-        @workout = current_user.workouts.build(workout_params)
+        @workout = Workout.new(workout_params)
+        # binding.pry
+        # @workout = Workouts.build(workout_params)
         if @workout.save 
             redirect_to workout_path(@workout)
         else 
             render :new
         end
-
     end 
 
     def edit
-        redirect_if_wrong_user
+        # redirect_if_wrong_user
         @workout = Workout.find(params[:id])
     end
     
     def update
-        redirect_if_wrong_user
+        # redirect_if_wrong_user
         @workout = Workout.find(params[:id])
         @workout.update(date: params[:workout][:date], training: params[:workout][:training], mood: params[:workout][:mood], length: params[:workout][:length])
         redirect_to workout_path(@workout)
@@ -43,7 +44,7 @@ class WorkoutsController < ApplicationController
 
 
     def destroy 
-        redirect_if_wrong_user
+        # redirect_if_wrong_user
         @workout.destroy
         redirect_to workouts_path
     end
@@ -52,13 +53,13 @@ class WorkoutsController < ApplicationController
 
     private 
 
-    def redirect_if_wrong_user
-        if current_user != @workout.user
-            flash[:message] = "You can't edit or delete a workout from another user."
-            redirect_to workouts_path
-            # redirect_to user_session_path(current_user)
-        end
-    end
+    # def redirect_if_wrong_user
+    #     if current_user != @workout.user
+    #         flash[:message] = "You can't edit or delete a workout from another user."
+    #         redirect_to workouts_path
+    #         # redirect_to user_session_path(current_user)
+    #     end
+    # end
 
     def workout_params
         params.permit(:date, :training, :mood, :length) 
