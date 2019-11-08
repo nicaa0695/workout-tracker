@@ -51,18 +51,11 @@ class WorkoutsController < ApplicationController
     def update
         @workout = Workout.find(params[:id])
         @workout.update(date: params[:workout][:date], training: params[:workout][:training], mood: params[:workout][:mood], length: params[:workout][:length])
-        if @workout.update(workout_params)
-			redirect_to workout_path(@workout)
-		else
-			render :edit 
-		end
-        # @workout.update(date: params[:workout][:date], training: params[:workout][:training], mood: params[:workout][:mood], length: params[:workout][:length])
-        # redirect_to workout_path(@workout)
+        redirect_to workout_path(@workout)
     end 
 
 
     def destroy 
-        # redirect_if_wrong_user
         @workout.destroy
         redirect_to workouts_path
     end
