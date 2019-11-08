@@ -24,5 +24,13 @@ function getWorkouts() {
     })
 }
 
+function listenForNewWorkoutFormClick() {
+	$('button#ajax-new-workout').on('click', function (event) {
+		event.preventDefault()
+		let newWorkoutForm = Workout.newWorkoutForm()
+		document.querySelector('div#new-workout-form-div').innerHTML = newPostForm
+	})
+}
+
 
 
