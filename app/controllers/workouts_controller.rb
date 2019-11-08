@@ -69,3 +69,4 @@ class WorkoutsController < ApplicationController
         @workout = Workout.find(params[:id])
     end  
 end
+
