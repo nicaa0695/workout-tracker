@@ -9,6 +9,10 @@ class WorkoutsController < ApplicationController
             
         else
             @workouts = Workout.all 
+            respond_to do |f|
+                f.html {render :index}
+                f.json {render json: @workouts}
+            end
         end
     end
 
