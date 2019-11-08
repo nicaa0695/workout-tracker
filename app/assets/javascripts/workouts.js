@@ -1,7 +1,7 @@
 $(function() {
 	console.log('workouts.js is loaded ...')
 	listenForClick()
-	// listenForNewWorkoutFormClick()
+	listenForNewWorkoutFormClick()
 });
 
 function listenForClick() {
@@ -32,36 +32,49 @@ class Workout {
         this.mood = mood
         this.length = length
 		this.exercises = exercises
-	}
-// class Workout {
-// 	constructor(obj) {
-// 		this.id = obj.id
-// 		this.date = obj.date
-//         this.training = obj.training
-//         this.mood = obj.mood
-//         this.length = obj.length
-// 		this.exercises = obj.exercises
-// 	}
-
-	static newWorkoutForm() {
+    }
+    static newWorkoutForm() {
 		return (`
 		<strong>New workout exercises form</strong>
-			<form>
-				<input id='workout-training' type='text' name='training'></input><br>
-				<input type='text' name='training'></input><br>
+            <form>
+                <input id='workout-date' type='text' name='date'></input><br>
+                <input type='text' name='training'></input><br>
+                <input type='text' name='mood'></input><br>
+                <input type='text' name='length'></input><br>
+
 				<input type='submit' />
 			</form>
 		`)
 	}
 }
+    
+Workout.prototype.workoutHTML = function () {
+    let workoutExercises = this.exercises.map(exercise => {
+        return (`
+            <p>${exercise.name}</p>
+            <p>${exercise.reps}</p>
+            <p>${exercise.sets}</p>
+            `)
+        }).join('')
+    
+        return (`	
+            <div class='workout'>
+                <h3>${this.date}</h3>
+                <p>${this.training}</p>
+                <p>${workoutExercises}</p>
+            </div>
+        `)
+    }
 
-// function listenForNewWorkoutFormClick() {
-// 	$('button#ajax-new-workout').on('click', function (event) {
-// 		event.preventDefault()
-// 		let newWorkoutForm = Workout.newWorkoutForm()
-//         document.querySelector('div#new-workout-form-div').innerHTML = newWorkoutForm
-// 	})
-// }
+	
+
+function listenForNewWorkoutFormClick() {
+	$('button#ajax-new-workout').on('click', function (event) {
+		event.preventDefault()
+		let newWorkoutForm = Workout.newWorkoutForm()
+        document.querySelector('div#new-workout-form-div').innerHTML = newWorkoutForm
+	})
+}
 
 
 
