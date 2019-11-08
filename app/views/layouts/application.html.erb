@@ -13,9 +13,44 @@
   </head>
 
   <body>
-    <header>
-    <h1 style="text-align: center"><%= link_to "All Workouts", workouts_path %></h1>
-    </header>
-    <%= yield %>
-  </body>
+    <section class="section">
+		<div class="container">
+			<h1 class='subtitle'>Workout Tracker</h1>
+		</div>
+		<div class="column">
+			Rails Links:
+			<%= link_to "Workouts", workouts_path %> |
+			<%= link_to "NewWorkout", new_workout_path %>
+			<hr>
+
+			<%= yield %>
+
+			<h1 class='subtitle'>Workout Tracker</h1>
+			<%= link_to "Workouts", workouts_path %> |
+			<%= link_to "NewWorkout", new_workout_path, class: 'ajax-new-workout' %>
+			<hr>
+			<div id="flash_messages" class="flash_style">
+				<% flash.each do |key, value| %>
+				<%= content_tag(:div, value, :class => "flash #{key}") %>
+				<% end %>
+			</div>
+			<br>
+
+			<button id='workouts-data'>Get Workouts</button>
+			<div id='ajax-workouts'>[workouts...]</div>
+			<br>
+			<br>
+
+			<button id='ajax-new-workout'>New Post</button>
+			<div id="new-workout-form-div">[form]</div>
+
+	</section>
+</body>
+
+
+    <%# <header> %>
+    <%# <h1 style="text-align: center"><%= link_to "All Workouts", workouts_path %>
+    <%# </header> %>
+    <%# <%= yield %> 
+  <%# </body> %>
 </html>
