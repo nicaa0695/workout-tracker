@@ -1,6 +1,11 @@
 class WorkoutsController < ApplicationController
     # skip_before_action :authenticate_user!, only: [:index]
-    before_action :find_workout, only: [:show, :edit, :update, :destroy]
+    # before_action :find_workout, only: [:show, :edit, :update, :destroy]
+
+    # def new_comment_form
+	# 	render partial: 'posts/new_comment_form'
+	# end
+
 
     def index
         if params[:training]
@@ -60,17 +65,7 @@ class WorkoutsController < ApplicationController
         redirect_to workouts_path
     end
 
-
-
     private 
-
-    # def redirect_if_wrong_user
-    #     if current_user != @workout.user
-    #         flash[:message] = "You can't edit or delete a workout from another user."
-    #         redirect_to workouts_path
-    #         # redirect_to user_session_path(current_user)
-    #     end
-    # end
 
     def workout_params
         params.permit(:date, :training, :mood, :length) 
