@@ -17,6 +17,11 @@ class WorkoutsController < ApplicationController
     end
 
     def show
+        @workout = Workout.find(params["id"])
+		respond_to do |f|
+			f.html {render :show}
+			f.json {render json: @workout }
+		end
     end 
 
     def new 
@@ -25,25 +30,34 @@ class WorkoutsController < ApplicationController
 
     def create 
         @workout = Workout.new(workout_params)
-        # binding.pry
-        # @workout = Workouts.build(workout_params)
-        if @workout.save 
-            redirect_to workout_path(@workout)
+        if @workout.save
+			respond_to do |f|
+				f.html {redirect_to workouts_path}
+				f.json {render json: @workouts}
+			end
         else 
             render :new
         end
     end 
 
     def edit
-        # redirect_if_wrong_user
         @workout = Workout.find(params[:id])
+        respond_to do |f|
+			f.html {render :edit}
+			f.json {render json: @workout}
+		end
     end
     
     def update
-        # redirect_if_wrong_user
         @workout = Workout.find(params[:id])
         @workout.update(date: params[:workout][:date], training: params[:workout][:training], mood: params[:workout][:mood], length: params[:workout][:length])
-        redirect_to workout_path(@workout)
+        if @workout.update(workout_params)
+			redirect_to workout_path(@workout)
+		else
+			render :edit 
+		end
+        # @workout.update(date: params[:workout][:date], training: params[:workout][:training], mood: params[:workout][:mood], length: params[:workout][:length])
+        # redirect_to workout_path(@workout)
     end 
 
 
