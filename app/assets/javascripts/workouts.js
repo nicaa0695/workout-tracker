@@ -1,12 +1,12 @@
 $(function() {
 	console.log('workouts.js is loaded ...')
 	listenForClick()
-	listenForNewWorkoutFormClick()
+    listenForNewWorkoutFormClick()
 });
 
 function listenForClick() {
 	$('button#workouts-data').on('click', function (event) {
-		event.preventDefault()
+		event.preventDefault() 
 		getWorkouts()
 	})
 }
@@ -17,22 +17,26 @@ function getWorkouts() {
 		method: 'get',
         dataType: 'json'
     }).done(function (data) {
-			console.log("the data is: ", data)
-				let myworkout = new Workout(data[0])
-                let myWorkoutHTML = myworkout.workoutHTML()
-				document.getElementById('ajax-workouts').innerHTML += myWorkoutHTML
+
+            console.log("the data is: ", data)
+            let myworkout = new Workout(data)
+            debugger
+            let myWorkoutHTML = myworkout.workoutHTML()
+            $('div#ajax-workouts').html(myWorkoutHTML)
+			document.getElementById('ajax-workouts').innerHTML += myWorkoutHTML
     })
 }
 
 class Workout {
-	constructor(id, date, training, mood, length, exercises) {
-		this.id = id
-		this.date = date
-        this.training = training
-        this.mood = mood
-        this.length = length
-		this.exercises = exercises
+	constructor(obj) {
+		this.id = obj.id
+		this.date = obj.date
+        this.training = obj.training
+        this.mood = obj.mood
+        this.length = obj.length
+		// this.exercises = exercises
     }
+
     static newWorkoutForm() {
 		return (`
 		<strong>New workout exercises form</strong>
@@ -49,22 +53,24 @@ class Workout {
 }
     
 Workout.prototype.workoutHTML = function () {
+
     let workoutExercises = this.exercises.map(exercise => {
         return (`
             <p>${exercise.name}</p>
-            <p>${exercise.reps}</p>
             <p>${exercise.sets}</p>
-            `)
-        }).join('')
-    
-        return (`	
-            <div class='workout'>
-                <h3>${this.date}</h3>
-                <p>${this.training}</p>
-                <p>${workoutExercises}</p>
-            </div>
+            <p>${exercise.reps}</p>
         `)
-    }
+    })
+        return (`
+        <div>
+            <h3>${this.date}</h3>
+            </p>${this.training}</p>
+            </p>${this.mood}</p>
+            </p>${this.length}</p>
+            </p>${workoutExercises}</p>
+        </div>
+        `)
+}
 
 	
 
