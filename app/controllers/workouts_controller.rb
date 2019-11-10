@@ -1,23 +1,9 @@
 class WorkoutsController < ApplicationController
-    # skip_before_action :authenticate_user!, only: [:index]
-    # before_action :find_workout, only: [:show, :edit, :update, :destroy]
-
-    # def new_comment_form
-	# 	render partial: 'posts/new_comment_form'
-	# end
-
-
     def index
-        if params[:training]
-            @workouts = Workout.by_training(params[:training])
-            # @filter = params[:training]
-            
-        else
-            @workouts = Workout.all 
-            respond_to do |f|
-                f.html {render :index}
-                f.json {render json: @workouts}
-            end
+        @workouts = Workout.all 
+        respond_to do |f|
+            f.html {render :index}
+            f.json {render json: @workouts}
         end
     end
 

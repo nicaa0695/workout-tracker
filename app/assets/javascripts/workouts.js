@@ -20,7 +20,7 @@ function getWorkouts() {
 
             console.log("the data is: ", data)
             let myworkout = new Workout(data)
-            debugger
+            // debugger
             let myWorkoutHTML = myworkout.workoutHTML()
             $('div#ajax-workouts').html(myWorkoutHTML)
 			document.getElementById('ajax-workouts').innerHTML += myWorkoutHTML
@@ -39,11 +39,15 @@ class Workout {
 
     static newWorkoutForm() {
 		return (`
-		<strong>New workout exercises form</strong>
+		<strong>New workout form</strong>
             <form>
+                <p>Date:</p>
                 <input id='workout-date' type='text' name='date'></input><br>
+                <p>Training:</p>
                 <input type='text' name='training'></input><br>
+                <p>Mood:</p>
                 <input type='text' name='mood'></input><br>
+                <p>Length:</p>
                 <input type='text' name='length'></input><br>
 
 				<input type='submit' />
@@ -53,21 +57,20 @@ class Workout {
 }
     
 Workout.prototype.workoutHTML = function () {
-
-    let workoutExercises = this.exercises.map(exercise => {
-        return (`
-            <p>${exercise.name}</p>
-            <p>${exercise.sets}</p>
-            <p>${exercise.reps}</p>
-        `)
-    })
+    // let workoutExercises = this.exercises.map(exercise => {
+    //     return (`
+    //         <p>${exercise.name}</p>
+    //         <p>${exercise.sets}</p>
+    //         <p>${exercise.reps}</p>
+    //     `)
+    // })
         return (`
         <div>
             <h3>${this.date}</h3>
             </p>${this.training}</p>
             </p>${this.mood}</p>
             </p>${this.length}</p>
-            </p>${workoutExercises}</p>
+            
         </div>
         `)
 }
