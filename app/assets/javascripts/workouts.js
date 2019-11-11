@@ -16,16 +16,35 @@ function getWorkouts() {
         url: 'http://localhost:3000/workouts',
 		method: 'get',
         dataType: 'json'
-    }).done(function (data) {
+        }).done(function (data) {
+                console.log("the data is: ", data)
+                // debugger
+                let myworkout = new Workout(data[0])
+            
+                let myWorkoutHTML = myworkout.workoutHTML()
+                // $('div#ajax-workouts').html(myWorkoutHTML)
+        		document.getElementById('ajax-workouts').innerHTML += myWorkoutHTML
+            })
+        }
+        
 
-            console.log("the data is: ", data)
-            let myworkout = new Workout(data)
-            // debugger
-            let myWorkoutHTML = myworkout.workoutHTML()
-            $('div#ajax-workouts').html(myWorkoutHTML)
-			document.getElementById('ajax-workouts').innerHTML += myWorkoutHTML
-    })
+function listenForNewWorkoutFormClick() {
+	$('button#ajax-new-workout').on('click', function (event) {
+		event.preventDefault()
+		let newWorkoutForm = Workout.newWorkoutForm()
+        document.querySelector('div#new-workout-form-div').innerHTML = newWorkoutForm
+	})
 }
+//         }).done(function (data) {
+
+//             console.log("the data is: ", data)
+//             let myworkout = new Workout(data[0])
+//             debugger
+//             let myWorkoutHTML = myworkout.workoutHTML()
+//             $('div#ajax-workouts').html(myWorkoutHTML)
+// 			document.getElementById('ajax-workouts').innerHTML += myWorkoutHTML
+//     })
+// }
 
 class Workout {
 	constructor(obj) {
@@ -34,7 +53,7 @@ class Workout {
         this.training = obj.training
         this.mood = obj.mood
         this.length = obj.length
-		// this.exercises = exercises
+		// this.exercises = obj.exercises
     }
 
     static newWorkoutForm() {
@@ -57,19 +76,20 @@ class Workout {
 }
     
 Workout.prototype.workoutHTML = function () {
-    // let workoutExercises = this.exercises.map(exercise => {
-    //     return (`
-    //         <p>${exercise.name}</p>
-    //         <p>${exercise.sets}</p>
-    //         <p>${exercise.reps}</p>
-    //     `)
-    // })
+    let workoutExercises = this.exercises.map(exercise => {
+        return (`
+            <p>${exercise.name}</p>
+            <p>${exercise.sets}</p>
+            <p>${exercise.reps}</p>
+        `)
+    }).join('')
         return (`
         <div>
             <h3>${this.date}</h3>
-            </p>${this.training}</p>
-            </p>${this.mood}</p>
-            </p>${this.length}</p>
+            <p>${this.training}</p>
+            <p>${this.mood}</p>
+            <p>${this.length}</p>
+            <p>${this.workoutExercises}
             
         </div>
         `)
@@ -77,13 +97,7 @@ Workout.prototype.workoutHTML = function () {
 
 	
 
-function listenForNewWorkoutFormClick() {
-	$('button#ajax-new-workout').on('click', function (event) {
-		event.preventDefault()
-		let newWorkoutForm = Workout.newWorkoutForm()
-        document.querySelector('div#new-workout-form-div').innerHTML = newWorkoutForm
-	})
-}
+
 
 
 
